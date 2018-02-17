@@ -1,5 +1,8 @@
 const board = new Array(8)
 
+let cellSelected_x
+let cellSelected_y
+
 for (var i =0; i <=8; i++) {
 		board[i] = new Array(8)
 	}
@@ -14,10 +17,10 @@ function clearBoard(){
 
 function paintCell(x,y,color){
   cell = document.getElementById('c'+x+y)
-  cell.style.background='green'
+  cell.style.background='orange'
 }
 
-function paintCell(x,y,color){
+function paintHorseCell(x,y,color){
   cell = document.getElementById('c'+x+y)
   cell.style.background='green'
   cell.innerHTML = '<img src="horse.gif" alt="Caballo" />'
@@ -25,13 +28,17 @@ function paintCell(x,y,color){
 
 function selectCell(x,y){
 	board[x][y] = 1
-	paintCell(x,y, "green")
+	paintCell(cellSelected_x,cellSelected_y, "orange")
 	paintHorseCell(x,y, "green")
+	cellSelected_x = x
+	cellSelected_y = y
 }
 
 
 x = Math.round(Math.random()*7)
 y = Math.round(Math.random()*7)
+cellSelected_x = x
+cellSelected_y = y
 clearBoard()
 selectCell(x,y)
 
