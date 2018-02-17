@@ -17,9 +17,16 @@ function paintCell(x,y,color){
   cell.style.background='green'
 }
 
+function paintCell(x,y,color){
+  cell = document.getElementById('c'+x+y)
+  cell.style.background='green'
+  cell.innerHTML = '<img src="horse.gif" alt="Caballo" />'
+}
+
 function selectCell(x,y){
 	board[x][y] = 1
 	paintCell(x,y, "green")
+	paintHorseCell(x,y, "green")
 }
 
 
@@ -27,3 +34,7 @@ x = Math.round(Math.random()*7)
 y = Math.round(Math.random()*7)
 clearBoard()
 selectCell(x,y)
+
+function CheckCell(x,y){
+	selectCell(x,y)
+}
