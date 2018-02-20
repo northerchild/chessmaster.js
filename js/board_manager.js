@@ -2,6 +2,9 @@ const board = new Array(8)
 
 let cellSelected_x
 let cellSelected_y
+let moves
+
+moves = 64
 
 for (var i =0; i <=8; i++) {
 		board[i] = new Array(8)
@@ -32,6 +35,8 @@ function selectCell(x,y){
 	paintHorseCell(x,y, "green")
 	cellSelected_x = x
 	cellSelected_y = y
+	moves--
+	document.getElementById('moves').innerHTML = moves
 }
 
 
