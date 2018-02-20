@@ -43,5 +43,18 @@ clearBoard()
 selectCell(x,y)
 
 function CheckCell(x,y){
-	selectCell(x,y)
+	checkTrue = false
+	dif_x = x - cellSelected_x
+	dif_y = y - cellSelected_y
+	//alto == a 2 pasos
+	if (dif_x == 1 && dif_y == 2)   checkTrue = true; // derecha arriba alto
+	if (dif_x == 1 && dif_y == -2)  checkTrue = true; // derehca abajo alto
+	if (dif_x == 2 && dif_y == 1)   checkTrue = true; // derecha alto arriba
+	if (dif_x == 2 && dif_y == -1)  checkTrue = true; // derecha alto abajo
+	if (dif_x == -1 && dif_y == 2)  checkTrue = true; // izquierda arriba alto
+	if (dif_x == -1 && dif_y == -2) checkTrue = true; // izquierda abajo alto
+	if (dif_x == -2 && dif_y == 1)  checkTrue = true; // izquierda alto arriba
+	if (dif_x == -2 && dif_y == -1) checkTrue = true; // izquierda alto abajo
+	if (board[x][y] == 1) checkTrue = false
+	if(checkTrue)selectCell(x,y)
 }
