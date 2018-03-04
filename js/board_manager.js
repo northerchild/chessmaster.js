@@ -3,7 +3,7 @@ const board = new Array(8)
 let cellSelected_x
 let cellSelected_y
 let moves
-
+let Options
 moves = 64
 
 for (var i =0; i <=8; i++) {
@@ -29,6 +29,34 @@ function paintHorseCell(x,y,color){
   cell.innerHTML = '<img src="horse.gif" alt="Caballo" />'
 }
 
+function checkSucces(){
+	successfullEnd = true
+	if (moves > 0) successfullEnd = false
+	if (successfullEnd) alert('Has ganado')
+}
+
+function check_GameOver(x,y){
+	Options = 0
+	Check_Moves(x,y,1,2)// derecha arriba alto
+	Check_Moves(x,y,2,1)// derehca abajo alto
+	Check_Moves(x,y,1,-2)// derecha alto arriba
+	Check_Moves(x,y,2,-1)// derecha alto abajo
+	Check_Moves(x,y,-1,2)//izquierda arriba alto
+	Check_Moves(x,y,-2,1)// izquierda abajo alto
+	Check_Moves(x,y,-1,-2)//izquierda alto arriba
+	Check_Moves(x,y,-2,-1)// izquierda alto abajo
+	document.getElementById("options").innerHTML = Options
+	if (!Options) alert("Game Over")  
+}
+
+function Check_Moves(x, y, mov_x, mov_y){
+	option_x = x + mov_x
+	option_y = y + mov_y
+	if (option_x < 8 && option_y < 8 && option_x>= 0 && option_y>=0 ){
+		if (board[option_x][option_y] == 0) Options ++
+	}
+}
+
 function selectCell(x,y){
 	board[x][y] = 1
 	paintCell(cellSelected_x,cellSelected_y, "orange")
@@ -37,6 +65,8 @@ function selectCell(x,y){
 	cellSelected_y = y
 	moves--
 	document.getElementById('moves').innerHTML = moves
+	checkSucces()
+	check_GameOver(x,y)
 }
 
 
