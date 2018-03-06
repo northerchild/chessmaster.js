@@ -4,7 +4,9 @@ let cellSelected_x
 let cellSelected_y
 let moves
 let Options
+let moves_required 
 moves = 64
+moves_required = 8
 
 for (var i =0; i <=8; i++) {
 		board[i] = new Array(8)
@@ -26,6 +28,11 @@ function paintCell(x,y,color){
 function paintHorseCell(x,y,color){
   cell = document.getElementById('c'+x+y)
   cell.style.background='green'
+  cell.innerHTML = '<img src="horse.gif" alt="Caballo" />'
+}
+
+function paintBonusCell(x,y){
+  cell = document.getElementById('c'+x+y)
   cell.innerHTML = '<img src="horse.gif" alt="Caballo" />'
 }
 
@@ -67,8 +74,26 @@ function selectCell(x,y){
 	document.getElementById('moves').innerHTML = moves
 	checkSucces()
 	check_GameOver(x,y)
+	check_newBonus()
 }
 
+function check_newBonus()
+{
+	if ((64-moves) % moves_required == 0) {
+		//Buscar casilla libre al azar
+		bonus_cell = false
+		while(bonus_cell == false){
+			bonus_cell_x = Math.round(Math.random()*7)
+			bonus_cell_y = Math.round(Math.random()*7)
+			if (board[bonus_cell_x][bonus_cell_y] == 0) 
+			bonus_cell = true
+		}
+		//En la board [][] = 2
+		board[bonus_cell_x][bonus_cell_y]  = 2
+		//Pintar la casilla bonus
+		paintBonusCell(bonus_cell_x,bonus_cell_y)
+	}
+}
 
 x = Math.round(Math.random()*7)
 y = Math.round(Math.random()*7)
@@ -93,3 +118,7 @@ function CheckCell(x,y){
 	if (board[x][y] == 1) checkTrue = false
 	if(checkTrue)selectCell(x,y)
 }
+
+// 0 -> casilla vacias
+// 1 -> casilla ocupada
+// 1 -> casilla bonus
