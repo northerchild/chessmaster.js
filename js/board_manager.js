@@ -4,9 +4,12 @@ let cellSelected_x
 let cellSelected_y
 let moves
 let Options
-let moves_required 
+let Bonus
+let moves_required
+let CheckCell_Required 
 moves = 64
 moves_required = 8
+Bonus = 0
 
 for (var i =0; i <=8; i++) {
 		board[i] = new Array(8)
@@ -33,7 +36,8 @@ function paintHorseCell(x,y,color){
 
 function paintBonusCell(x,y){
   cell = document.getElementById('c'+x+y)
-  cell.innerHTML = '<img src="horse.gif" alt="Caballo" />'
+  cell.style.background='white'
+  cell.innerHTML = '<img src="bonus.png" alt="Caballo" />'
 }
 
 function checkSucces(){
@@ -53,25 +57,33 @@ function check_GameOver(x,y){
 	Check_Moves(x,y,-1,-2)//izquierda alto arriba
 	Check_Moves(x,y,-2,-1)// izquierda alto abajo
 	document.getElementById("options").innerHTML = Options
-	if (!Options) alert("Game Over")  
+	if (!Options){
+		if (Bonus) CheckCell_Required = false
+		else alert("Game Over")	
+	} 
 }
 
 function Check_Moves(x, y, mov_x, mov_y){
 	option_x = x + mov_x
 	option_y = y + mov_y
 	if (option_x < 8 && option_y < 8 && option_x>= 0 && option_y>=0 ){
-		if (board[option_x][option_y] == 0) Options ++
+		if (board[option_x][option_y] == 0 || board[option_x][option_y] == 2) Options ++
 	}
 }
 
 function selectCell(x,y){
-	board[x][y] = 1
-	paintCell(cellSelected_x,cellSelected_y, "orange")
-	paintHorseCell(x,y, "green")
-	cellSelected_x = x
-	cellSelected_y = y
 	moves--
 	document.getElementById('moves').innerHTML = moves
+	paintCell(cellSelected_x,cellSelected_y, "orange")
+	paintHorseCell(x,y, "green")
+	if (board[x][y] == 2) {
+		Bonus++
+		document.getElementById("bonus").innerHTML = "+" + Bonus
+	}
+	board[x][y] = 1
+	cellSelected_x = x
+	cellSelected_y = y
+	CheckCell_Required = true
 	checkSucces()
 	check_GameOver(x,y)
 	check_newBonus()
@@ -103,6 +115,8 @@ clearBoard()
 selectCell(x,y)
 
 function CheckCell(x,y){
+	checkTrue = true
+	if (CheckCell_Required){ 
 	checkTrue = false
 	dif_x = x - cellSelected_x
 	dif_y = y - cellSelected_y
@@ -115,6 +129,13 @@ function CheckCell(x,y){
 	if (dif_x == -1 && dif_y == -2) checkTrue = true; // izquierda abajo alto
 	if (dif_x == -2 && dif_y == 1)  checkTrue = true; // izquierda alto arriba
 	if (dif_x == -2 && dif_y == -1) checkTrue = true; // izquierda alto abajo
+	}else{
+		if (board[x][y] == 0 || board[x][y] == 2) {
+			Bonus--
+			document.getElementById("bonus").innerHTML = "+" + Bonus
+			if (Bonus == 0) document.getElementById("bonus").innerHTML = ""
+		}
+	}
 	if (board[x][y] == 1) checkTrue = false
 	if(checkTrue)selectCell(x,y)
 }
